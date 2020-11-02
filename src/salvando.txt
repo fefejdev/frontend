@@ -1,0 +1,5 @@
+<Login email={email} defEmail={defEmail} senha={senha} defSenha={defSenha}
+      controleLogin={controleLogin} controleRegistro={controleRegistro}
+      temConta={temConta} defTemConta={defTemConta}
+      erroEmail={erroEmail} erroSenha={erroSenha}
+      />
