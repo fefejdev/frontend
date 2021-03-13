@@ -10,13 +10,12 @@ const Login = () =>{
 
     async function createNewAnonymousUser(){
         if(currentUser){
-            history.push("/")
+            history.push("/dashboard")
         } else {
             try {
                 await signUp()
-                console.log('uid' + fb.currentUser.uid)
                 storeAnonymousUser(currentUser)
-                history.push("/")
+                history.push("/dashboard")
             } catch  {
                 setError("Não foi possível criar um perfil")
             }

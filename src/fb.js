@@ -13,5 +13,7 @@ import firebase from 'firebase'
   });
 
   export const auth = fb.auth();
+  
+  export const databse = fb.database()
 
   export default fb;

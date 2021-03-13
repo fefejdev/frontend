@@ -18,18 +18,12 @@ export function AuthProvider({children}) {
     function signUp(){
         return auth.signInAnonymously()
     }
-    function storeAnonymousUser(user){
-            console.log('uid:' + user.uid)
-            database.ref('users/' + user.uid).set({
-                id: user.uid,
-                
-            })
-    }
-
+  
     function storeUser(user){
+            console.log("success")
             database.ref('users/' + user.uid).set({
                 id: user.uid,
-                isAnonymous: user.email,
+                isAnonymous: user.isAnonymous,
             })
     }
 
@@ -46,6 +40,10 @@ export function AuthProvider({children}) {
             setCurrentUser(user)
             setDisabledButtons(false)
 
+            if(user != null){
+                storeUser(user)
+            }
+               
            
             
 

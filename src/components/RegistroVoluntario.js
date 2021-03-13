@@ -6,13 +6,10 @@ export default function RegistroVoluntario() {
     const passwordRef = useRef();
 
     function handleRegister(){
-        
+
     }
     
     return (
-
-            
-                   
                         <>
                         <section className="login"></section>
                             <div className="loginContainer"></div>
@@ -22,18 +19,15 @@ export default function RegistroVoluntario() {
                                     <input type="text" placeholder = "Digite seu email" autoFocus required
                                     ref={emailRef}
                                     />
-
                                     <label>Senha</label>
                                     <input type="password" placeholder = "Digite sua senha" autoFocus required
                                     ref={passwordRef}
                                     />
-                                
                                     <div className="btnContainer">
                                         <button type="submit">Entrar</button>
                                         <p>Registre-se aqui</p>
                                     </div>
                                 </form>
-                              
                         </>
          
     )

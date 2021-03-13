@@ -7,7 +7,7 @@ const LoginVoluntario = () =>{
     const [password, defPassword] = useState()
     const [passwordError, setPassWordError] = useState()
     const [error, setError] = useState()
-    const {signIn, currentUser,logout,storeUser} = useAuth()
+    const {signIn, currentUser,logout} = useAuth()
     const history = useHistory()
     
     
@@ -20,9 +20,11 @@ const LoginVoluntario = () =>{
         try{
             setPassWordError("")
             await signIn(email, password)
-            storeUser(currentUser)
-            history.push("/")
-        } catch{
+            console.log(currentUser)
+            
+            history.push("/dashboard")
+        } catch (e){
+            console.log(e)
             setError("Erro ao logar")
         }
     }
