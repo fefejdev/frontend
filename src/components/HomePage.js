@@ -12,14 +12,17 @@ export default function HomePage() {
                 <h1>CFB</h1>
                 {currentUser ?(
                     <>
-                        <Link to="/dashboard"><button>Ir para a Dashboard</button></Link>
-                        <button onClick={logout}>Logout</button>
+                        <div className="btnContainerNav">
+                            <Link to="/dashboard">
+                            <button>Ir para a Dashboard</button></Link>
+                        <button onClick={logout}>Logout</button></div>
+                        
                     </>
                 ) : (
                     <>
                         <div className="btnContainerNav">
                             <Link to="/login"><button>Precisa de ajuda? Clique aqui</button></Link>
-                            <Link to="/voluntarioLogin"><button>Faça seu login</button></Link>
+                            <Link to="/loginVoluntario"><button>Faça seu login</button></Link>
                             <Link to="/registroVoluntario"><button>Seja Voluntário</button></Link>
                         </div>
                     </>

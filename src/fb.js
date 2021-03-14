@@ -14,6 +14,7 @@ import firebase from 'firebase'
 
   export const auth = fb.auth();
   
-  export const databse = fb.database()
+  export const database = fb.database()
 
+  export const firestore = fb.firestore()
   export default fb;

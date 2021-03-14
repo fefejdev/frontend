@@ -136,3 +136,7 @@ h1{
   margin-left: 25%;
   margin-right: 25%;
 }
+
+.textContainer h1 {
+  color: gray;
+}

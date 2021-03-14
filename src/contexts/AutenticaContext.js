@@ -1,8 +1,7 @@
 import React, {useContext,useEffect,useState} from 'react'
-import {auth, fb} from '../fb'
+import {database, auth, firestore,fb} from '../fb'
 
 const AutenticaContext = React.createContext();
-var database = fb.database()
 export function useAuth(){
     return useContext(AutenticaContext)
 }
@@ -12,16 +11,43 @@ export function AuthProvider({children}) {
     const [currentUser, setCurrentUser] = useState()
     const [disableButtons, setDisabledButtons] = useState(true)
 
+    function sendMessage(message, uid2){
+        const conversationDoc = firestore.collection('conversations').doc()
+
+        conversationDoc.set({
+            uid: currentUser.uid,
+            uid2: uid2
+        }
+        )
+
+        conversationDoc.collection('messages').add({
+            sender: currentUser.uid,
+            message: message,
+        }
+        )
+    }
+    
     function signUp(){
         return auth.signInAnonymously()
     }
   
     function storeUser(user){
             console.log("success")
-            database.ref('users/' + user.uid).set({
-                id: user.uid,
-                isAnonymous: user.isAnonymous,
-            })
+            database.ref('users/').child(user.uid).get().then(function (snapshot){
+                if(snapshot.exists()){
+                    console.log('already exists')
+                    database.ref('users/' + user.uid).update({
+                       isOnline: true 
+                    })
+                } else {
+                    console.log('setting')
+                    database.ref('users/' + user.uid).set({
+                                    id: user.uid,
+                                    isAnonymous: user.isAnonymous,
+                                    isOnline: true
+                                })
+                }
+            })    
     }
 
     function logout(){
@@ -39,7 +65,7 @@ export function AuthProvider({children}) {
 
             if(user != null){
                 storeUser(user)
-            }
+            } 
         })
 
 
@@ -49,7 +75,7 @@ export function AuthProvider({children}) {
         currentUser,
         signUp,
         logout,
-        disableButtons,
+        sendMessage,
         signIn,
     }
     return (

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Login from "./Login"
 import { Link, Redirect, useHistory } from "react-router-dom"
 import {useAuth} from "../contexts/AutenticaContext"
@@ -6,7 +6,15 @@ import Bootstrap, { Button, Container } from "react-bootstrap"
 
 
 const Dashboard = () => {
+    const [message, setMessage] = useState()
+    const [uid, setUid] = useState()
     const history = useHistory()
+    const {sendMessage,logout, currentUser} = useAuth()
+
+    function submitMessage(){
+        sendMessage(message,uid)
+    }
+
     function handleLogout(){
         logout()
         history.push("/")
@@ -23,19 +31,22 @@ const Dashboard = () => {
 
         
     }
-    const {logout, currentUser} = useAuth()
+    
     return(
         <section className="main">
             <nav>
                 <h2>APU</h2>
-                <Link to="/"><button>Voltar para a página inicial</button></Link>
-                <button onClick= {handleLogout}>Logout</button>
-                
+                <div className="btnContainerNav">
+                    <Link to="/"><button>Voltar para a página inicial</button></Link>
+                    <button onClick= {handleLogout}>Logout</button>
+                </div>
             </nav> 
 
             {checkUser() ? (
-                    <Container>
-                        <p>Você está logado</p>
+                    <Container style={{marginTop: 50, marginLeft: 0, borderStyle: "solid"}}>
+                        <input type="text" value = {message} onChange={(e) => setMessage(e.target.value)}/>
+                        <input type="text" value = {uid} onChange={(e) => setUid(e.target.value)}/>
+                        <button onClick={submitMessage}/>
                     </Container>
                    
                     ) : (
