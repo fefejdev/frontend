@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import {useAuth} from '../contexts/AutenticaContext'
-import {useHistory} from "react-router-dom"
+import {Redirect, useHistory} from "react-router-dom"
 
 const LoginVoluntario = () =>{
     const [email, defEmail] = useState()
@@ -30,29 +30,34 @@ const LoginVoluntario = () =>{
     }
     return(
         <section className="login">
-            <div className="loginContainer">
+            
+                        {currentUser ? (
+                            <Redirect to="/dashboard"/>
+                        ) : (
+                            <div className="loginContainer">
                         <h1>Login - Voluntário</h1>
-                        <p className="errorMsg">{error}</p>
-                        <p className="errorMsg">{currentUser && currentUser.email}</p>
-                        <label>E-mail</label>
-                        <input type="email" placeholder = "Digite seu email" autoFocus required
-                        value = {email} onChange={(e) => defEmail(e.target.value)}
-                        />
-                        
+                            <p className="errorMsg">{error}</p>
+                            <label>E-mail</label>
+                            <input type="email" placeholder = "Digite seu email" autoFocus required
+                            value = {email} onChange={(e) => defEmail(e.target.value)}
+                            />
+                            
 
-                        <label>Senha</label>
-                        <input type="password" placeholder = "Digite sua senha" autoFocus required
-                        value = {password} onChange={(e) => defPassword(e.target.value)}
-                        />
-                        
-                        <p className="errorMsg">{passwordError}</p>
-                        <div className="btnContainer">
-                            <button onClick={handleLogin}>Entrar</button>
-                            <button onClick={logout}>Entrar</button>
-                            <p>Registre-se aqui</p>
+                            <label>Senha</label>
+                            <input type="password" placeholder = "Digite sua senha" autoFocus required
+                            value = {password} onChange={(e) => defPassword(e.target.value)}
+                            />
+                            
+                            <p className="errorMsg">{passwordError}</p>
+                            <div className="btnContainer">
+                                <button onClick={handleLogin}>Entrar</button>
+                                <button onClick={logout}>Entrar</button>
+                                <p>Registre-se aqui</p>
+                            </div>
                         </div>
-                    
-                </div>
+                
+                        )}
+                        
         
         </section>
     );

@@ -7,9 +7,6 @@ export function useAuth(){
     return useContext(AutenticaContext)
 }
 
-
-
-    
 export function AuthProvider({children}) {
 
     const [currentUser, setCurrentUser] = useState()
@@ -43,10 +40,6 @@ export function AuthProvider({children}) {
             if(user != null){
                 storeUser(user)
             }
-               
-           
-            
-
         })
 
 
