@@ -28,10 +28,7 @@ const Login = () =>{
                         <h1>Login - Voluntário</h1>
 
                             <div className="btnContainer">
-                                <p>{error}</p>
-                                <p> {currentUser && currentUser.uid} </p>
-                                <p> {currentUser && currentUser.isAnonymous} </p>
-                                <button disabled={disableButtons} onClick={createNewAnonymousUser()}>Entrar</button>
+                                <button onClick={createNewAnonymousUser()}>Entrar</button>
                                 <button type="submit" onClick={logout}>Logout</button>
                             </div>
                 </div>
