@@ -93,12 +93,13 @@ h1{
 }
 
 .main nav {
+  color:darkslategray;
   background: #05af60;
   width: 100%;
   padding: 20px 40px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items:flex-end;
+  justify-content:end;
 }
 
 .main nav h2 {
@@ -106,8 +107,24 @@ h1{
 }
 
 .main nav button {
-  width: 86px;
+  width: fit-content;
+  border-radius: 20px;
   padding: 8px 0;
   background: rgb(16, 131, 8);
 }
 
+.btnContainerNav{
+  justify-content: right;
+  margin-left: 65%;
+}
+
+.btnContainerNav button{
+  margin: 10px;
+}
+
+.textContainer{
+  text-align: center;
+  margin-top: 50px;
+  margin-left: 25%;
+  margin-right: 25%;
+}

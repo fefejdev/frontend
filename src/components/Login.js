@@ -1,7 +1,7 @@
 import React, {useState} from "react"
-import fb, {auth} from "../fb"
 import {useAuth} from '../contexts/AutenticaContext'
-import {Link, BrowserRouter as Router, useHistory} from 'react-router-dom'
+import {
+    BrowserRouter as Router, useHistory} from 'react-router-dom'
 
 const Login = () =>{
     const {signUp, currentUser, logout, disableButtons, storeAnonymousUser} = useAuth()

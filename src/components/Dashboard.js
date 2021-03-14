@@ -28,7 +28,9 @@ const Dashboard = () => {
         <section className="main">
             <nav>
                 <h2>APU</h2>
+                <Link to="/"><button>Voltar para a página inicial</button></Link>
                 <button onClick= {handleLogout}>Logout</button>
+                
             </nav> 
 
             {checkUser() ? (
