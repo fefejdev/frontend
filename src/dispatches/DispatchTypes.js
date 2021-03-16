@@ -1,0 +1,10 @@
+
+export const RequestLogin = "REQUESTING_LOGIN"
+export const LoginSuccess = "LOGIN_SUCCESS"
+export const LoginFailure = "LOGIN_FAILURE"
+export const RequestLogout = "REQUESTING_LOGOUT"
+export const LogoutSuccess = "LOGOUT_SUCCESS"
+export const LogoutFailure = "LOGOUT_FAILURE"
+export const RequestUsers = "REQUESTING_USERS"
+export const RequestUsersSuccess = "USERS_RETURNED"
+export const RequestUsersFailure = "USERS_ERROR"
