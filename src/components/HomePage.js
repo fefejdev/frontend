@@ -1,13 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Bootstrap from 'react-bootstrap'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { isUserLogged } from '../dispatches/Authentication'
 
 export default function HomePage() {
-    const select = useSelector(state => state.authentication)
-
-    
-    
     return (
 
         <section className="main">

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Login from "./Login"
 import Dashboard from "./Dashboard"
 import {BrowserRouter as Router, Switch,Route} from "react-router-dom"
@@ -7,8 +7,19 @@ import LoginVoluntario from "./LoginVoluntario"
 import RegistroVoluntario from "./RegistroVoluntario"
 import HomePage from "./HomePage"
 import 'bootstrap/dist/css/bootstrap.min.css'; 
+import { useDispatch, useSelector } from "react-redux";
+import { isUserLogged } from "../dispatches/Authentication";
 
 const App = () => {
+
+  const authenticator = useSelector(state => state.authentication)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(!authenticator.userLogged){
+        dispatch(isUserLogged())
+    }
+  }, [])
   return (
     <Router>
         <Switch> 
