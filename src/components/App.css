@@ -83,8 +83,8 @@ h1{
   transition: all 400ms ease-in-out;
 }
 
-.login .loginContainer .btnContainer p span:hover {
-  color: orangered;
+.login .loginContainer .btnContainer span:hover {
+  color: darkgoldenrod;
 }
 
 .login .loginContainer .errorMsg {
@@ -139,4 +139,74 @@ h1{
 
 .textContainer h1 {
   color: gray;
+}
+
+.allUsersTab{
+  height: 100%;
+  width: 30%;
+  overflow-x:hidden;
+  border-right: 3px solid greenyellow;
+}
+
+.chat{
+  height: 100%;
+  width: 70%;
+}
+
+.chatItems{
+  display: flex;
+  position: absolute;
+  width: 100%;
+}
+
+.inputText {
+  width: 80%;
+}
+
+.submitButton{
+  width:20%
+}
+
+.username {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.username :hover {
+  color:darkgreen;
+}
+
+.message{
+  background: cyan;
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  
+}
+
+.messageForeign{
+  background:darkslategray;
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  
+}
+
+.sendMessages {
+  position: fixed;
+  display: flex;
+  width: 70%;
+  height: 50px;
+  bottom: 0;
+}
+
+.messages{
+  height: calc(100% - 50px);
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
 }

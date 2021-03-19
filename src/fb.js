@@ -17,4 +17,6 @@ import firebase from 'firebase'
   export const database = fb.database()
 
   export const firestore = fb.firestore()
+
+  export const storage = fb.storage()
   export default fb;

@@ -1,18 +1,19 @@
 
 import { auth, firestore } from "../fb";
-import DispatchType from './DispatchTypes'
+import {RequestLogin,LoginSuccess,LoginFailure,RequestLogout,LogoutSuccess,LogoutFailure} from './DispatchTypes'
 
-export const singUp = (user) =>{
+export const signUp = (user) =>{
 
     return async (dispatch) => {
         
         dispatch({
-            type: DispatchType.RequestLogin
+            type: RequestLogin
         })
         auth.createUserWithEmailAndPassword(user.email, user.password).then(
             data =>{
                 const currentUser = auth.currentUser
                 const displayname = user.firstName + " "+ user.lastName
+                
                 currentUser.updateProfile({
                     displayName: displayname
                 }).then(() =>{
@@ -27,7 +28,7 @@ export const singUp = (user) =>{
                     ).then(() =>{
 
                         const User = {
-                            displayName: user.displayName,
+                            displayName: displayname,
                             uid: data.user.uid,
                             isVolunteer: true
                         }
@@ -35,12 +36,12 @@ export const singUp = (user) =>{
                         localStorage.setItem('user', JSON.stringify(User))
 
                         dispatch({
-                            type: DispatchType.LoginSuccess,
+                            type: LoginSuccess,
                             payload: {loggedUser: User}
                         })
                     }).catch(e =>{
                         dispatch({
-                            type: DispatchType.LoginFailure,
+                            type: LoginFailure,
                             payload: { e }
                         })
                     })
@@ -56,11 +57,12 @@ export const signInAnonymously = (user) =>{
     return async (dispatch) => {
         
         dispatch({
-            type: DispatchType.RequestLogin
+            type: RequestLogin
         })
         auth.signInAnonymously().then(
             data =>{
                 const currentUser = auth.currentUser
+                console.log(currentUser)
                 const displayname = user.firstName + " "+ user.lastName
                     firestore.collection('usuarios').doc(data.user.uid).set(
                         {
@@ -73,20 +75,20 @@ export const signInAnonymously = (user) =>{
                     ).then(() =>{
 
                         const User = {
-                            displayName: user.displayName,
+                            displayName: displayname,
                             uid: data.user.uid,
                             isVolunteer: false
                         }
-
+                        
                         localStorage.setItem('user', JSON.stringify(User))
-
+                        
                         dispatch({
-                            type: DispatchType.LoginSuccess,
+                            type: LoginSuccess,
                             payload: {loggedUser: User}
                         })
                     }).catch(e =>{
                         dispatch({
-                            type: DispatchType.LoginFailure,
+                            type: LoginFailure,
                             payload: { e }
                         })
                     })
@@ -99,9 +101,10 @@ export const signIn = (user) =>{
 
     return async dispatch =>{
         dispatch({
-            type: DispatchType.RequestLogin
+            type: RequestLogin
         })
 
+        console.log(user.email)
         auth.signInWithEmailAndPassword(user.email, user.password).then((data) =>{
             firestore.collection('usuarios').doc(data.user.uid).update({
                 isOnline: true
@@ -117,12 +120,12 @@ export const signIn = (user) =>{
                 localStorage.setItem('user', JSON.stringify(User))
 
                 dispatch({
-                    type: DispatchType.LoginSuccess,
+                    type: LoginSuccess,
                     payload: {loggedUser: User}
                 })
             }).catch(e =>{
                 dispatch({
-                    type: DispatchType.LoginFailure,
+                    type: LoginFailure,
                     payload: { e }
                 })
             })
@@ -135,14 +138,14 @@ export const isUserLogged = () =>{
     return async dispatch =>{
         const loggedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
 
-        if(user){
+        if(loggedUser){
             dispatch({
-                type: DispatchType.LoginSuccess,
+                type: LoginSuccess,
                 payload: { loggedUser }
             })
         } else {
             dispatch({ 
-                type: DispatchType.LoginFailure,
+                type: LoginFailure,
                 payload: {e: 'Não foi possível efetuar o login, tente novamente'}
             })
         }
@@ -151,7 +154,7 @@ export const isUserLogged = () =>{
 
 export const logout = (uid) => {
     return async dispatch =>{
-        dispatch ({type: DispatchType.RequestLogout})
+        dispatch ({type: RequestLogout})
 
         firestore.collection('usuarios').doc(uid).update({
             isOnline: false
@@ -159,9 +162,9 @@ export const logout = (uid) => {
         .then(() =>{
             auth.signOut().then(() => {
                 localStorage.clear()
-                dispatch({type: DispatchType.LogoutSuccess})
+                dispatch({type: LogoutSuccess})
             }).catch(e =>{
-                dispatch({type: DispatchType.LogoutFailure, payload: {e}})
+                dispatch({type: LogoutFailure, payload: {e}})
             })
         })
     }

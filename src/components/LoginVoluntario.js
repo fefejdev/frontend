@@ -1,43 +1,44 @@
 import React, {useState} from "react"
-import {useAuth} from '../contexts/AutenticaContext'
-import {Redirect, useHistory} from "react-router-dom"
+import {signIn} from '../dispatches/Authentication'
+import {Redirect,Link} from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
 
 const LoginVoluntario = () =>{
     const [email, defEmail] = useState()
     const [password, defPassword] = useState()
     const [passwordError, setPassWordError] = useState()
-    const [error, setError] = useState()
-    const {signIn, currentUser,logout} = useAuth()
-    const history = useHistory()
+    const dispatch = useDispatch()
+    const authenticator = useSelector(state => state.authentication)
     
     
 
-    async function handleLogin(){
+    const handleLogin = () => {
         if(password.length < 6){
             return setPassWordError("Senha curta demais")
         }
 
-        try{
-            setPassWordError("")
-            await signIn(email, password)
-            console.log(currentUser)
-            
-            history.push("/dashboard")
-        } catch (e){
-            console.log(e)
-            setError("Erro ao logar")
+        console.log(email)
+        console.log(password)
+        const user = {
+            email: email,
+            password: password
         }
+        
+        dispatch(signIn(user))
+        
     }
+
+    if(authenticator.userLoaded){
+        return <Redirect to="/dashboard"/>
+    }
+    
     return(
         <section className="login">
             
-                        {currentUser ? (
-                            <Redirect to="/dashboard"/>
-                        ) : (
+                       
                             <div className="loginContainer">
                         <h1>Login - Voluntário</h1>
-                            <p className="errorMsg">{error}</p>
-                            <label>E-mail</label>
+                              <label>E-mail</label>
                             <input type="email" placeholder = "Digite seu email" autoFocus required
                             value = {email} onChange={(e) => defEmail(e.target.value)}
                             />
@@ -51,12 +52,11 @@ const LoginVoluntario = () =>{
                             <p className="errorMsg">{passwordError}</p>
                             <div className="btnContainer">
                                 <button onClick={handleLogin}>Entrar</button>
-                                <button onClick={logout}>Entrar</button>
-                                <p>Registre-se aqui</p>
+                                <p>Ainda não tem uma conta? Registre-se<Link to="/registroVoluntario"><span>aqui</span></Link></p>
                             </div>
                         </div>
                 
-                        )}
+                      
                         
         
         </section>

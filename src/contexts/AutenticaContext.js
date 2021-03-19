@@ -1,5 +1,5 @@
 import React, {useContext,useEffect,useState} from 'react'
-import {database, auth, firestore,fb} from '../fb'
+import {storage, database, auth, firestore,fb} from '../fb'
 
 const AutenticaContext = React.createContext();
 export function useAuth(){
@@ -9,7 +9,12 @@ export function useAuth(){
 export function AuthProvider({children}) {
 
     const [currentUser, setCurrentUser] = useState()
-    const [disableButtons, setDisabledButtons] = useState(true)
+    const [loading, setLoading] = useState(true)
+
+    function signUp(email, password){
+        
+        auth.createUserWithEmailAndPassword(email, password)
+    }
 
     function sendMessage(message, uid2){
         const conversationDoc = firestore.collection('conversations').doc()
@@ -27,61 +32,93 @@ export function AuthProvider({children}) {
         )
     }
     
-    function signUp(){
+    function signInAnonymously(){
         return auth.signInAnonymously()
     }
-  
+
+    function uploadFile(file){
+        storage.ref('users/' + currentUser.uid + "/" + file.name).put(file)
+    }
+    function getUsers(){
+        const users = []
+        database.ref('users/').on('value', (snapshot) =>{
+                snapshot.forEach(function(snap){
+                    if(snap.val()){
+                        users.push(snap.val())
+                    }
+                })
+        })
+
+        return users
+        }
+    function getMessages(){
+        
+    }
     function storeUser(user){
             console.log("success")
-            database.ref('users/').child(user.uid).get().then(function (snapshot){
-                if(snapshot.exists()){
-                    console.log('already exists')
-                    database.ref('users/' + user.uid).update({
-                       isOnline: true 
-                    })
-                } else {
-                    console.log('setting')
-                    database.ref('users/' + user.uid).set({
-                                    id: user.uid,
-                                    isAnonymous: user.isAnonymous,
-                                    isOnline: true
-                                })
-                }
-            })    
+            firestore.collection('users').doc()
     }
 
     function logout(){
+        database.ref('users/').child(currentUser.uid).get().then(function (snapshot){
+            if(snapshot.exists()){
+                console.log('this user is not logged anymore')
+                database.ref('users/' + currentUser.uid).update({
+                    isOnline: false
+                })
+            }
+        }
+        )
         return auth.signOut()
     }
+
+    function isCurrentUserFull() {
+        if(currentUser != null){
+            return true } else {
+                return false
+            }
+        }
+    
 
     function signIn(email, password){
         return auth.signInWithEmailAndPassword(email, password)
     }
 
+    function getConversationsMessages() {
+        
+    }
     useEffect(() =>{
         auth.onAuthStateChanged(user =>{
+            console.log("user set")
             setCurrentUser(user)
-            setDisabledButtons(false)
+            
 
             if(user != null){
                 storeUser(user)
+                
             } 
+            
+            setLoading(false)
+            
         })
 
-
+        
     }, [])
 
     const value = {
         currentUser,
+        getUsers,
         signUp,
+        signInAnonymously,
         logout,
         sendMessage,
         signIn,
+        uploadFile,
     }
     return (
         <div>
             <AutenticaContext.Provider value={value}>
-                {children}
+                {!loading && children}
             </AutenticaContext.Provider>
         </div>
     )

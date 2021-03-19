@@ -1,10 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import App from './components/App.js';
+import storage from './storage/LocalStorage'
+
+window.store = storage
+
 ReactDOM.render(
-  <React.StrictMode>
-      <App/>
-  </React.StrictMode>,
+  <Provider store={storage}>
+      <React.StrictMode>
+        <App/>
+    </React.StrictMode>
+  </Provider>
+  ,
   document.getElementById('root')
 );
 
