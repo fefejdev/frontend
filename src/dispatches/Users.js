@@ -9,7 +9,7 @@ export const getAllUsers = (user) =>{
         const unsubscribe = firestore.collection('usuarios').onSnapshot((querySnapshot) => {
             const allUsers = [] //sempre que houver atualização ele limpa o array para fazer as operações
             querySnapshot.forEach(function(document) {
-                if(document.data().uid != user.uid && document.data().isVolunteer != user.isVolunteer){
+                if(document.data().uid != user.uid && document.data().isVolunteer != user.isVolunteer && document.data().isOnline){
                     allUsers.push(document.data())
                 }
             }

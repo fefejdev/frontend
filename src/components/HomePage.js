@@ -2,19 +2,31 @@ import React, { useEffect } from 'react'
 import Bootstrap from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { isUserLogged } from '../dispatches/Authentication'
+import { isUserLogged, logout } from '../dispatches/Authentication'
 
 export default function HomePage() {
+    const authenticator = useSelector(state => state.authentication)
+    const dispatch = useDispatch()
     return (
 
         <section className="main">
             <nav>
                 <h1>CFB</h1>
-                        <div className="btnContainerNav">
+                {authenticator.userLoaded ? (
+
+                    <div className="btnContainerNav">
+                        <Link to="/dashboard"><button>Ir para a dashboard</button></Link>
+                        <button onClick={() =>{dispatch(logout(authenticator.uid))}}>Logout</button>
+                        </div>
+                        
+                        ) : (
+                            <div className="btnContainerNav">
                             <Link to="/login"><button>Precisa de ajuda? Clique aqui</button></Link>
                             <Link to="/loginVoluntario"><button>Faça seu login</button></Link>
                             <Link to="/registroVoluntario"><button>Seja Voluntário</button></Link>
                         </div>
+                        )}
+                        
             </nav>
 
             <div className= "textContainer">
